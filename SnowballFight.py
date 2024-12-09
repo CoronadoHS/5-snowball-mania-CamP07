@@ -8,7 +8,7 @@
 
 import random
 import time
-from colorama import Fore, Back, Style
+from colorama import Fore
 
 
 def main():
@@ -23,6 +23,8 @@ def main():
     players = []
     players.append(name)
     players.append(opponent)
+
+    playersOut = []
 
     print("Are there any more opponents? If so, type them one at a time (or NONE) and press 'Enter'")
     nextPlayer = input()
@@ -40,13 +42,13 @@ def main():
     print("Do you want to choose who you throw the snowball at, or do you want it to be random? (Type YES or NO)")
     choice = input()
 
-    gameplay(name, players, choice)
+    gameplay(name, players, choice, playersOut)
 
     # randomly choose one person to throw a snowball at the other
 
    
 
-def gameplay(name, players, manual):
+def gameplay(name, players, manual, out):
       # randomly choose one person to throw a snowball at the other
       while (len(players) > 1):
         thrower = random.choice(players)
@@ -65,22 +67,25 @@ def gameplay(name, players, manual):
        
         if target in players:
 
-            print(f'{Fore.YELLOW}{thrower}{Fore.RESET} threw a snowball at {target}!')
+            print(f'{thrower} threw a snowball at {target}!')
             
             # generate a random number to use as the hitNum
             hitNum = random.randint(1, 10)
             success = hitResult(hitNum)
             if success == True:
-                print("It's a hit! " + target + " is down!")
+                print("It's a " + Fore.GREEN + "hit! " + Fore.RESET + target + " is down!\n")
                 players.remove(target)
+                out.append(target)
             else:
                 print(f'{thrower} is trash at the game and {Fore.RED}missed!\n{Fore.RESET}')
+        elif target in out:
+            print(f'{thrower} threw a snowball at {target}, who was already out. That is {Fore.RED}not cool.{Fore.RESET}')
         else:
             print(f'{thrower} threw a snowball at a random passerby named {target}! They are {Fore.RED}not pleased.\n{Fore.RESET}')
 
         time.sleep(2)
     
-      print(players[0] + " has won the snowball fight!")
+      print(Fore.YELLOW + players[0] + Fore.RESET + " has won the snowball fight!")
 
 
 def hitResult(hitNum):
