@@ -35,23 +35,21 @@ def main():
         nextPlayer = input()
         players.append(nextPlayer)
     players.remove("NONE")
-
-    print(*players, sep=" vs. ")
         
     
     print("Do you want to choose who you throw the snowball at, or do you want it to be random? (Type YES or NO)")
     choice = input()
 
+    print(*players, sep=" vs. ")   # a starting message identifying all the players in the game
+
     gameplay(name, players, choice, playersOut)
 
-    # randomly choose one person to throw a snowball at the other
 
    
 
 def gameplay(name, players, manual, out):
-      # randomly choose one person to throw a snowball at the other
       while (len(players) > 1):
-        thrower = random.choice(players)
+        thrower = random.choice(players)   # randomly choose one person to throw a snowball at the other
         if (thrower == name):
             if (manual == "YES"):  # manual mode
                 print("It's your turn! Who do you want to throw a snowball at?")
@@ -65,7 +63,7 @@ def gameplay(name, players, manual, out):
                 while target == thrower:
                     target = random.choice(players)
        
-        if target in players:
+        if target in players:   #  check for if the target is in the player list
 
             print(f'{thrower} threw a snowball at {target}!')
             
@@ -73,17 +71,17 @@ def gameplay(name, players, manual, out):
             hitNum = random.randint(1, 10)
             success = hitResult(hitNum)
             if success == True:
-                print("It's a " + Fore.GREEN + "hit! " + Fore.RESET + target + " is down!\n")
-                players.remove(target)
-                out.append(target)
-            else:
-                print(f'{thrower} is trash at the game and {Fore.RED}missed!\n{Fore.RESET}')
-        elif target in out:
-            print(f'{thrower} threw a snowball at {target}, who was already out. That is {Fore.RED}not cool.{Fore.RESET}')
-        else:
-            print(f'{thrower} threw a snowball at a random passerby named {target}! They are {Fore.RED}not pleased.\n{Fore.RESET}')
+                print("It's a " + Fore.GREEN + "hit! " + Fore.RESET + target + " is down!\n")  # message for a successful throw
+                players.remove(target)  # removes the hit target from the player list
+                out.append(target)  # adds the hit target to a list of players who are out of the game
+            else: 
+                print(f'{thrower} is trash at the game and {Fore.RED}missed!\n{Fore.RESET}')   # message for a failed throw
+        elif target in out:    # check if the inputed target was already hit, identify the target as such if true
+            print(f'{thrower} threw a snowball at {target}, who was already out. That is {Fore.RED}not cool.{Fore.RESET}\n')
+        else:  # a message for if the target was never part of the game
+            print(f'{thrower} threw a snowball at a random passerby named {target}! They are {Fore.RED}not pleased.{Fore.RESET}\n')
 
-        time.sleep(2)
+        time.sleep(2)   # delay to make the game easier to follow
     
       print(Fore.YELLOW + players[0] + Fore.RESET + " has won the snowball fight!")
 
